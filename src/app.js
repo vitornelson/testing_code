@@ -54,7 +54,7 @@ app.post('/searchBook', function (req, res) {
 
         const db = client.db(dbName)
 
-        //insert
+        //search
         db.collection('users').findOne({name: 'Vitor'}, (error, user) =>
         {
             if (error){
