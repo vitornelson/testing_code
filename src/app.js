@@ -16,7 +16,7 @@ app.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`);
 });
 
-// func to insert book
+// endpoint to insert book
 app.post('/insertBook', function (req, res) {
     
    
@@ -44,7 +44,7 @@ app.post('/insertBook', function (req, res) {
     
 });
 
-// func to search book
+// endpoint to search book
 app.post('/searchBook', function (req, res) {
 
     MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
@@ -67,7 +67,7 @@ app.post('/searchBook', function (req, res) {
 
 });
 
-// func to update book
+// endpoint to update book
 app.post('/searchBook', function (req, res) {
 
     MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
@@ -94,7 +94,7 @@ app.post('/searchBook', function (req, res) {
 
 });
 
-// func to delete book
+// endpoint to delete book
 app.post('/searchBook', function (req, res) {
 
     MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
