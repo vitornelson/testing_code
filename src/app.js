@@ -4,7 +4,7 @@ const hostname = '127.0.0.1';
 const port = 3000;
 const mongodb = require('mongodb')
 const MongoClient = mongodb.MongoClient
-//const ObjectID = mongodb.ObjectID
+const ObjectID = mongodb.ObjectID
 
 // Connection URL
 const dbConnection = 'mongodb://127.0.0.1:27017';
@@ -30,7 +30,10 @@ app.post('/insertBook', function (req, res) {
         //insert
         db.collection('books').insertOne({
             name: 'VitorS',
-            publication: 2019
+            authors: 'santos',
+            publisher: 'abril',
+            publication: 2019,
+            summary: 'teste...teste'
         }, (error, result) => {
             if(error){
                 return console.log('Unable to insert user')
@@ -79,7 +82,7 @@ app.post('/searchBook', function (req, res) {
 
         //update
         db.collection('books').updateOne({
-        _id: new ObjectID("5e474f92f9485d5840616e00")
+        _id: new ObjectID("5e474f92f9485d5840616e00") //id that I took
         }, {
             $set: {
                 name:'VitorNe'
