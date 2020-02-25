@@ -1,122 +1,19 @@
+//call express module
 const express = require('express')
-const app = express();
-const hostname = '127.0.0.1';
-const port = 3000;
-const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
+//call mongoose db configuration file
+require('./db/mongoose')
+//call book model where I set up fields
+const bookRouter = require('./routers/book')
 
-// Connection URL
-const dbConnection = 'mongodb://127.0.0.1:27017';
+//set up express connection port
+const app = express()
+const port = process.env.PORT || 3000
 
-// Database Name
-const dbName = 'dbapi';
-//info about server and port
-app.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-});
+//send json objects and get back
+app.use(express.json())
+app.use(bookRouter)
 
-// endpoint to insert book
-app.post('/insertBook', function (req, res) {
-    
-   
-    MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
-        if (error) {
-            console.log('Unable to connect to database')
-        }
-        
-        const db = client.db(dbName)
-
-        //insert
-        db.collection('books').insertOne({
-            name: 'VitorS',
-            authors: 'santos',
-            publisher: 'abril',
-            publication: 2019,
-            summary: 'teste...teste'
-        }, (error, result) => {
-            if(error){
-                return console.log('Unable to insert user')
-            }
-
-            console.log(result.ops)
-            
-        })
-    })
-   res.status(201).send('Book inserted')
-    
-});
-
-// endpoint to search book
-app.post('/searchBook', function (req, res) {
-
-    MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
-        if (error) {
-            console.log('Unable to connect to database')
-        }
-
-        const db = client.db(dbName)
-
-        //search
-        db.collection('books').findOne({name: 'Vitor'}, (error, user) =>
-        {
-            if (error){
-                return console.log('unable to find');
-            }
-            user.send(user)
-        })
-    })
-    res.status(201)
-
-});
-
-// endpoint to update book
-app.post('/searchBook', function (req, res) {
-
-    MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
-        if (error) {
-            console.log('Unable to connect to database')
-        }
-
-        const db = client.db(dbName)
-
-        //update
-        db.collection('books').updateOne({
-        _id: new ObjectID("5e474f92f9485d5840616e00") //id that I took
-        }, {
-            $set: {
-                name:'VitorNe'
-            }
-        }, (error, result) => {
-            if(error){
-                return console.log(error)
-            }
-        })
-    })
-    res.status(201)
-
-});
-
-// endpoint to delete book
-app.post('/searchBook', function (req, res) {
-
-    MongoClient.connect(dbConnection, { useUnifiedTopology: true }, (error, client) => {
-        if (error) {
-            console.log('Unable to connect to database')
-        }
-
-        const db = client.db(dbName)
-
-        //delete
-        db.collection('books').deleteOne({
-            name: 'VitorNe'
-        }, (error, result) => {
-            if (error) {
-                console.log('Unable to delete')
-            }
-            console.log(result.deletedCount)
-        })
-    })
-    res.status(201)
-
-});
+//port listening
+app.listen(port, () => {
+    console.log('Server is up on port ' + port)
+})
